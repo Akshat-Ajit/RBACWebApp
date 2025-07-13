@@ -1,0 +1,24 @@
+﻿@if (User.Identity.IsAuthenticated)  
+{  
+    <li class="nav-item">  
+        <form asp-controller="Account" asp-action="Logout" method="post" class="form-inline">  
+            <button type="submit" class="btn btn-link nav-link">Logout</button>  
+        </form>  
+    </li>  
+}  
+else  
+{  
+    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Account" &&  
+         ViewContext.RouteData.Values["action"]?.ToString() == "Register")  
+    {  
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Account" asp-action="Login">Log In</a>
+        </li>  
+    }  
+    else  
+    {  
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+        </li>  
+    }  
+}

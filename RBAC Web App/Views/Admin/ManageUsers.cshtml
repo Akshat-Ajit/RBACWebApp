@@ -1,0 +1,48 @@
+﻿@model List<RBACWebApp.Models.ViewModels.UserWithRolesViewModel>
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h2>Manage Users</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Roles</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.FullName</td>
+            <td>@user.Email</td>
+            <td>
+                    @if (user.Email == User.Identity.Name)
+                    {
+                        <span class="text-muted">You can't change your own role</span>
+                    }
+                    else
+                    {
+                        <form asp-action="ChangeRole" asp-controller="Admin" method="post" class="d-flex">
+                            <input type="hidden" name="userId" value="@user.UserId" />
+
+                            <select name="newRole" class="form-select me-2">
+                                <option disabled selected>-- Select Role --</option>
+                                <option value="Admin" selected="@(user.Roles.Contains("Admin").ToString().ToLower())">Admin</option>
+                                <option value="Manager" selected="@(user.Roles.Contains("Manager").ToString().ToLower())">Manager</option>
+                                <option value="User" selected="@(user.Roles.Contains("User").ToString().ToLower())">User</option>
+                            </select>
+
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    }
+            </td>
+        </tr>
+    }
+</tbody>
+
+</table>
